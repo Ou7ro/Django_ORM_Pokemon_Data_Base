@@ -72,6 +72,15 @@ def show_pokemon(request, pokemon_id):
             'pokemon_id': pokemon.previous_evolution.id,
             'img_url': get_image_url(request, pokemon.previous_evolution),
             }
+        
+    next_pokemon = pokemon.next_evolutions.first()
+    next_evolution = {}
+    if next_pokemon:
+        next_evolution = {
+            "title_ru": next_pokemon.title,
+            "pokemon_id": next_pokemon.id,
+            "img_url": get_image_url(request, next_pokemon),
+        }
 
     pokemon_data = {
         'title_ru': pokemon.title,
@@ -80,6 +89,7 @@ def show_pokemon(request, pokemon_id):
         'img_url': get_image_url(request, pokemon),
         'description': pokemon.description,
         'previous_evolution': previous_evolution,
+        'next_evolution': next_evolution,
     }
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
